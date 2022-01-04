@@ -1,3 +1,6 @@
+
+# 对应地址 https://github.com/type-challenges/type-challenges
+
 * [typescript类型挑战笔记记录](#typescript类型挑战笔记记录)
    * [Easy](#easy)
       * [Pick](#pick)
@@ -8,7 +11,7 @@
       * [MyExclude](#myexclude)
       * [MyAwaited 获取promise返回类型](#myawaited-获取promise返回类型)
       * [IF](#if)
-* [Concat](#concat)
+      * [Concat](#concat)
       * [Equal](#equal)
       * [Includes](#includes)
       * [MyParameters](#myparameters)
@@ -17,7 +20,7 @@
       * [Omit 实现内置Omit](#omit-实现内置omit)
       * [Readonly](#readonly-1)
 
-对应地址 https://github.com/type-challenges/type-challenges
+
 
 ## Easy
 
@@ -97,7 +100,7 @@ type cases = [
 ```typescript
 type If<C extends boolean, T, F> = C extends true ? T : F;
 ```
-# Concat 
+### Concat 
 ```typescript
 type Concat<T extends any[], K extends any[]> = [...T, ...K]
 ```
@@ -137,6 +140,7 @@ export type MergeInsertions<T> =
 
 type a2 = MergeInsertions<{ a: string } & { b: string }>
 ```
+
 ### Includes
 ```typescript
 type isEqual<X, Y> = (<T>() => T extends X ? 1 : 2) extends
@@ -146,6 +150,7 @@ type Includes<T extends readonly any[], U> = T extends [infer F, ...infer R] ? (
   isEqual<U, F> extends true ? true : Includes<R, U>
 ) : false;
 ```
+
 ### MyParameters
 ```typescript
 type MyParameters<T extends (...args: any[]) => any> = 
