@@ -1,6 +1,23 @@
-# typescript类型挑战笔记记录
+* [typescript类型挑战笔记记录](#typescript类型挑战笔记记录)
+   * [Easy](#easy)
+      * [Pick](#pick)
+      * [ReadOnly](#readonly)
+      * [TupleToObject](#tupletoobject)
+      * [First Array获取数组第一个元素](#first-array获取数组第一个元素)
+      * [<a href="https://github.com/type-challenges/type-challenges/issues/5413">Length of Tuple</a>](#length-of-tuple)
+      * [MyExclude](#myexclude)
+      * [MyAwaited 获取promise返回类型](#myawaited-获取promise返回类型)
+      * [IF](#if)
+* [Concat](#concat)
+      * [Equal](#equal)
+      * [Includes](#includes)
+      * [MyParameters](#myparameters)
+   * [Medium](#medium)
+      * [ReturnType 实现内置ReturnType](#returntype-实现内置returntype)
+      * [Omit 实现内置Omit](#omit-实现内置omit)
+      * [Readonly](#readonly-1)
 
-[TOC]
+对应地址 https://github.com/type-challenges/type-challenges
 
 ## Easy
 
