@@ -1,5 +1,9 @@
 # typescript类型挑战笔记记录
 
+[TOC]
+
+## Easy
+
 ### Pick
 ```typescript
 type MyPick<T, K extends keyof T> = { 
@@ -47,6 +51,8 @@ type Length<T extends readonly any[]> = T['length']
 ### MyExclude
 ```typescript
 type MyExclude<T, U> = T extends U ? never : T;
+
+Expect<Equal<MyExclude<"a" | "b" | "c", "a">, Exclude<"a" | "b" | "c", "a">>>,
 
 // T是联合类型时，extends会一个个判断， T 可能是 A | B 的联合类型, 
 // 那实际情况就变成(A extends U ? X : Y) | (B extends U ? X : Y)
@@ -127,4 +133,49 @@ type Includes<T extends readonly any[], U> = T extends [infer F, ...infer R] ? (
 ```typescript
 type MyParameters<T extends (...args: any[]) => any> = 
 	T extends (...args: infer U) => any ? U : never;  
+```
+
+
+## Medium
+
+### ReturnType 实现内置ReturnType
+```
+type MyReturnType<T> = T extends (...args: any[]) => infer T ? T : never;
+```
+
+### Omit 实现内置Omit
+通过Exclude获取剔除后的key集合
+```
+type MyOmit<T, K extends keyof T> = {
+  [M in Exclude<keyof T, K>]: T[M]
+}
+
+type cases = [
+  Expect<Equal<Expected1, MyOmit<Todo, 'description'>>>,
+  Expect<Equal<Expected2, MyOmit<Todo, 'description' | 'completed'>>>
+]
+
+interface Todo {
+  title: string
+  description: string
+  completed: boolean
+}
+
+interface Expected1 {
+  title: string
+  completed: boolean
+}
+
+interface Expected2 {
+  title: string
+}
+
+```
+
+### Readonly
+将T中的转为readonly, 设置默认值为keyof T即默认所有属性readonly, 通过omit拼接不做处理的属性 
+```
+type MyReadonly2<T, K extends keyof T = keyof T> = {
+  readonly [M in K]: T[M]
+} & Omit<T, K>
 ```
