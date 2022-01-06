@@ -1,6 +1,4 @@
-
-# 对应地址 https://github.com/type-challenges/type-challenges
-
+### 对应地址 https://github.com/type-challenges/type-challenges
 * [typescript类型挑战笔记记录](#typescript类型挑战笔记记录)
    * [Easy](#easy)
       * [Pick](#pick)
@@ -19,6 +17,8 @@
       * [ReturnType 实现内置ReturnType](#returntype-实现内置returntype)
       * [Omit 实现内置Omit](#omit-实现内置omit)
       * [Readonly](#readonly-1)
+      * [deepReadonly 深度转换为只读对象](#deepreadonly-深度转换为只读对象)
+      * [TupleToUnion元组转联合类型](#tupletounion元组转联合类型)
 
 
 
@@ -200,4 +200,65 @@ interface Expected2 {
 type MyReadonly2<T, K extends keyof T = keyof T> = {
   readonly [M in K]: T[M]
 } & Omit<T, K>
+```
+
+### deepReadonly 深度转换为只读对象 
+
+```
+
+type DeepReadonly<T> =  {
+  readonly [P in keyof T]: T[P] extends Record<string, unknown> ? DeepReadonly<T[P]> : T[P]
+}
+
+type DeepReadonly<T> = {
+  readonly [P in keyof T] : (keyof T[P]) extends never ? T[P] : DeepReadonly<T[P]>
+}
+
+type X = {
+  a: () => 22
+  b: string
+  c: {
+    d: boolean
+    e: {
+      g: {
+        h: {
+          i: true
+          j: 'string'
+        }
+        k: 'hello'
+      }
+    }
+  }
+}
+
+type Expected = {
+  readonly a: () => 22
+  readonly b: string
+  readonly c: {
+    readonly d: boolean
+    readonly e: {
+      readonly g: {
+        readonly h: {
+          readonly i: true
+          readonly j: 'string'
+        }
+        readonly k: 'hello'
+      }
+    }
+  }
+}
+
+```
+
+### TupleToUnion元组转联合类型
+```
+type TupleToUnion<T extends any[]> = T[number]
+
+type TupleToUnion<T extends any[]> = T extends [infer F,...infer R] ? F | TupleToUnion<R> : never;
+
+type cases = [
+  Expect<Equal<TupleToUnion<[123, '456', true]>, 123 | '456' | true>>,
+  Expect<Equal<TupleToUnion<[123]>, 123>>,
+]
+
 ```
