@@ -25,5 +25,11 @@ interface Expected2 {
 }
 
 
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+}
+
+type Exclude<T, U> = T extends U ? never :T; 
+
 // ============= Your Code Here =============
-type MyOmit<T, K> = any
+type MyOmit<T, K> = Pick<T, Exclude<keyof T, K>>
